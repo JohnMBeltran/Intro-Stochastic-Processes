@@ -162,11 +162,27 @@ Clearly, we have that $\mu_1<\infty$, hence state 1 is positively recurrent as t
 b) From Figure 2, we see that there are two unchains of groups of states that can communicate -- mutually accessible. States 1, 2 \& 3 make a subchain, and 4 \& 5 make the second chain. This second chain contains transient states, because once the system moves from state 4 to state 1, it can no longer return to state 4, or 5. Hence, states 4 and 5 are aperiodic. \newline
 The subchain of states 1,2 &3/ contains positively recurrent states, because we showed that state 1 is positively recurrent and we know that all states in an irreducible subchain share this reccurence property; used without proof. Also, we observe that this subchain of recurrent states is aperiodic, hence it is ergodic.
 
-
-
-
-
-
+c) For the steady state probability vector, we can resolve $T^t\tilde{P}^t=\tilde{P}^t$, where $\tilde{P}$ denotes the row matrix of the stationary distribution for the system:
+\begin{eqnarray*}\begin{pmatrix}
+0 & 1-\alpha & 0 & 1/2 & 0 \\
+1 & 0 & 1 & 0 & 0 \\
+0 & \alpha & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1/2 \\
+0 & 0 & 0 & 1/2 & 1/2 
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 
+\end{pmatrix}&=&
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 
+\end{pmatrix} \\
+\begin{pmatrix}
+(1-\alpha)x_2+\frac{1}{2}x_4 \\ x_1+x_3 \\ \alpha x_2 \\ \frac{1}{2}x_5 \\ \frac{1}{2}(x_4+x_5) 
+\end{pmatrix} &=& \begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 
+\end{pmatrix} 
+\end{eqnarray*}
+The final two rows require that $x_5=x_4=0$. The second and third rows requrie that $x_1=(1-\alpha)x_2$, which can be put into the equation in row 1, leading to : $x_2=x_2$. We can now freely choose x_2 -- let $x_2=1$. Hence, the steady state distribution $\tilde{P}=(1-\alpha, \ \ 1,\ \ \alpha,\ \  0,\ \ 0)$
 
 
 
