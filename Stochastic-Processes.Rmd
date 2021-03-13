@@ -124,8 +124,8 @@ Tr <- define_transition(
   0, 1, 0, 0, 0,
   1-alpha, 0, alpha, 0, 0,
   0, 1, 0, 0, 0, 
-  .5, 0, 0, 0, .5,
-  0, 0, 0, .5, .5);
+  1/2, 0, 0, 0, 1/2,
+  0, 0, 0, 1/2, 1/2);
 
 curves <- matrix(nrow = 5, ncol = 5, 0.065)
 
@@ -148,7 +148,7 @@ plot(Tr,
 $$f_1^1=0, \ \ \ \ \  f_1^2 = 1-\alpha,  \ \ \ \ \ f_1^3 =0, \ \ \ \ \ f_1^4 = \alpha(1-\alpha),$$
 $$ f_1^5 = 0,  \ \ \ \ \ f_1^6 = (1-\alpha)\alpha^2  \ \ \ \ \  f_1^7=0,  \ \ \ \ \  f_1^8=(1-\alpha)\alpha^3,  \ \ \ \ \  ...$$
 Hence, we reach that $\sum_{n\geq 1}f_1^{(n)}=(1-\alpha)(1+\alpha + \alpha ^2+\alpha ^3 +\ldots)$. Now observe that the expansion of $(1-x)^{-1}=1+x+x^2+...$, hence, $\sum_{n\geq 1}f_1^{(n)}=(1-\alpha)(1-\alpha)^{-1}=1$, Hence state 1 is a recurrent state, and will surely return to itself. Now to show positive recurrence -- that state 1 will surely return to itself in finite time -- we require that $\mu_1=\sum_{n\geq 1}n f_1^{(n)}< \infty$, which can be shown, by considering only the non-zero terms, which arise from even values of $n\in\mathbb{N}$, 
-\begin{eqnarray*}\mu_i \sum_{n\geq 1}n f_1^{(n)}&=&\sum_{n\geq 1}(2n)f_1^{(2n)} \\
+\begin{eqnarray*}\mu_i =\sum_{n\geq 1}n f_1^{(n)}&=&\sum_{n\geq 1}(2n)f_1^{(2n)} \\
 &=&2\sum_{n\geq 1}n (-1\alpha)\alpha^{n-1} \\
 &=& 2(1-\alpha)\sum_{n\geq 1}n\alpha^{n-1}
 \end{eqnarray*}
@@ -159,8 +159,8 @@ Clearly, we have that $\mu_1<\infty$, hence state 1 is positively recurrent as t
 
 \newpage 
 
-b) From Figure 2, we can deduce that States 4 ad 5 are transient, because once the system move from state four to state 1, it can no longer return to states 4 and 5. \newline
-Also, we see that States 1, 2 and 3 are recurent, and 
+b) From Figure 2, we can deduce that States 4 ad 5 are transient, because once the system moves from state 4 to state 1, it can no longer return to states 4 and 5. \newline
+Also, we see that States 1, 2 and 3 are recurrent as they can return to themselves. Importantly, 
 
 
 
