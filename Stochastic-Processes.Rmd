@@ -1,0 +1,216 @@
+---
+output: 
+  pdf_document: null
+geometry: "left=2cm,right=2cm,top=2cm,bottom=2cm"
+fontsize: 11pt
+---
+\subsection*{Question 1: $M^X/M/1/4$ Queue}
+
+```{r q1.1,inslude=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.align="center", out.width='80%'}
+require('heemod')
+require('shape')
+require('diagram')
+Tr2 <- define_transition( state_names = c('4', '3', '2', '1', '0'),
+  0, mu, 0, 0, 0, 
+  lambda^1, 0, mu, 0, 0, 
+  0, lambda^1, 0, mu, 0,  
+  lambda^3, 0, lambda^1, 0, mu,
+  0, lambda^3 , 0, lambda^1, 0)
+
+curves <- matrix(nrow = 5, ncol = 5, 0.55)
+plot(Tr2, pos=c(5),curve=curves, endhead=FALSE,
+     arr.length=0.3, latex=FALSE,
+     lwd = 1, box.lwd = 1, box.col = "lightblue",
+     cex.txt = 1, box.size = 0.07)
+```
+\begin{figure}
+\caption{$M^X/M/1/4$, with $\lambda^1$ and $\lambda^3$ arrivals. See Annex A for R Code.}
+\end{figure}
+a) We can illustrate the steady state system, with $\lambda^1$ denoting the arrival of a batch with 1 customer, and $\lambda^3$ denoting a batch with 3 customers. \textit{These are not indicies, but a limit of the software.} \newline
+Now, from state space diagram, in Figure 1, we can form the steady state rate equations:
+$$\mu P_1 = (\lambda_1+\lambda_3)P_0, \ \ \ \ \ \ \
+\mu P_2 = (\lambda_1+\lambda_3)P_1, \ \ \ \ \ \ \
+\mu P_3 = \lambda_1 P_2, \ \ \ \ \ \ \ \
+\mu P_4 = \lambda_1 P_3
+$$
+These rate questions lead us to an expression for each state: 
+$$P_1 = \left[\frac{\lambda_1 + \lambda_3}{\mu}\right]P_0, \ \ \ \ \ \ \ 
+P_2 = \left[\frac{\lambda_1 + \lambda_3}{\mu}\right]P_1, \ \ \ \ \ \ \
+P_3=\frac{\lambda_1}{\mu}, \ \ \ \ \ \ \  
+P_4=\frac{\lambda_1}{\mu}P_3$$
+$$ \lambda_1, \lambda_3=1, \ \ \ \  \mu =1 \ \implies 
+P_1=2P_0, \ \ \ \ P_2 = 2P_1, \ \ \ \ P_3=P_2, \ \ \ \ P_4=P_3
+$$
+Now, since $\sum_{n=0}^4P_n=1$, then 
+\begin{eqnarray*}\sum_{n=0}^4P_n &=& P_0+2P_0+4P_0+4P_0+4P_0 =1\\
+\therefore P_0 &=& \frac{1}{15}
+\end{eqnarray*}
+Hence, we obtain: $P_0=\frac{1}{15}$, $P_1=\frac{2}{1
+5}$, $P_2=\frac{4}{15}$, $P_3=\frac{4}{15}$ and $P_4=\frac{4}{15}$.
+
+b) From the steady state probabilities, we can deduce the expected length of the system $L_2$:
+\begin{eqnarray*} L_s = E(N_s) &=& \sum_{n=1}^4 n P_n
+= \frac{1}{15}(0+1(2)+2(4)+3(4)+4(4)) \\
+&=& \frac{38}{15}\ \ \ \approx 2.53\ \ (3s.f.)
+\end{eqnarray*}
+
+c) For expected waiting time $W_s$ in the system, we notice that the waiting time in the queue is $W_q=E(T)E(N)$, where $E(T)=1/\mu$ denotes the expected time for a set of individuals to be served. Hence $W_q=L_s/\mu$. Now, we also have that the mean waiting time is the mean time spent in the queue plus the mean service time: $W_s=W_q+1/\mu$. \newline
+Hence, $W_s=\frac{38}{15}+1=\frac{53}{15}\implies$ 3 mins 32 seconds, expected total waiting time.
+
+
+
+\newpage
+\subsection*{Question 2: $M^X/M/1/\infty$ Queue}
+Queue Process $M/M/1$ with infinite capacity and variable arrival rate. An arrival rate of $\lambda_n \leq 1$, and service rate $\mu =1$. Arrival and Service are independent Poisson processes.
+
+a) $\lambda _n=\frac{n^4}{(n+1)^4}$, with $\lambda_0=1$\newline
+In a steady state, this system has: $\lambda_0 P_0=P_1$, $\lambda_1 P_1=P_2$ $\ldots$\newline 
+This leads to $P_n=P_0\prod_{m=0}^n\lambda_m$. Hence, if a steady state does exist then $\sum_{n\geq0}P_n=1$. This is only possible if $\sum_{n\geq0}\prod_{m=0}^n\lambda_m$ is finite -- converges. Importantly, we reduce the product to:
+\begin{eqnarray*}\prod_{m=0}^n\lambda_m&=&1\cdot\frac{1^4}{2^4}\cdot\frac{2^4}{3^4}\cdot\ldots\cdot\frac{n^4}{(n+1)^4}=\left[\frac{n!}{(n+1)!}\right]^4 \\ &=&\frac{1}{(n+1)^4}
+\end{eqnarray*}
+Hence, we obtain
+\begin{eqnarray*}\sum_{n\geq0}\frac{1}{(n+1)^4}=\sum_{n\geq 1}\frac{1}{n^4}
+\end{eqnarray*}
+Now, by observing the similar general problem, $\sum_{k=1}^\infty \frac{1}{k^\alpha}<\infty$ if $\alpha>1$, we see that $\sum_{n\geq0}\prod_{m=0}^n\lambda_m$ converges for this $\lambda_n$, where $\alpha=4>1$.
+Hence, it is clear that a form for $P_0$ exists ($P_0=\frac{90}{\pi^4}$), and a steady state probability distribution \underline{does exist}.\newline
+Now, for the expected system size, $L_s=E(N_s)$
+\begin{eqnarray*}E(N_s) &=& \sum_{n\geq 0}nP_n \\
+&=& P_0 \sum_{n\geq 0} n\cdot \frac{1}{(n+1)^4} = P_0 \sum_{n\geq 1}\frac{n-1}{n^4}\\
+&=& P_0 \sum_{n\geq 1}\left[\frac{1}{n^3} - \frac{1}{n^4}\right]
+\end{eqnarray*}
+Clearly, this converges and, since $\frac{1}{n^4}<\frac{1}{n^3}$ for all $n$, $L_s$ is \underline{finite} and positive. 
+
+b) $\lambda _n=\frac{\sqrt{n}}{\sqrt{n+1}}$, with $\lambda_0=1$\newline
+Similarly, as before, we have $P_n=P_0\prod_{m=0}^n\lambda_m$, where the product decomposes to: 
+\begin{eqnarray*}\prod_{m=0}^n\lambda_m&=&1\cdot\frac{\sqrt{1}}{\sqrt{2}}\cdot\frac{\sqrt{2}}{\sqrt{3}}\cdot\ldots\cdot\frac{\sqrt{n}}{\sqrt{n+1}}=\sqrt{\frac{n!}{(n+1)!}} \\ &=&\frac{1}{\sqrt{n+1}}
+\end{eqnarray*}
+This leads us to: 
+\begin{eqnarray*} \sum_{n\geq 0} P_n &=& P_0\sum_{n\geq 1} \frac{1}{\sqrt{n}} 
+\end{eqnarray*}
+Now, studying the same general form $\sum_{k=1}^\infty \frac{1}{k^\alpha}=\infty$ if $\alpha\leq 1$, we see that $\alpha = \frac{1}{2}\leq 1$. Hence, this does not converge and there is no viable form for $P_n$ for a steady state. Therefore there is no steady state probability distribution. 
+
+\newpage 
+
+c) $\lambda_n = \frac{n^{\frac{3}{2}}}{(n+1)^\frac{3}{2}}$, with $\lambda_0=1$.\newline
+Similar, as above, we have $\lambda_0 P_0=P_1$, $\lambda_1 P_1=P_2$ $\ldots$ \newline
+Now we have a $P_n$ with a product term of the form:
+\begin{eqnarray*}\prod_{m=0}^n\lambda_m&=&1\cdot\frac{1^{\frac{3}{2}}}{2^{\frac{3}{2}}}\cdot\frac{2^{\frac{3}{2}}}{3^{\frac{3}{2}}}\cdot\ldots\cdot\frac{n^{\frac{3}{2}}}{(n+1)^{\frac{3}{2}}}=\left[\frac{n!}{(n+1)!}\right]^{\frac{3}{2}} \\ &=&\frac{1}{(n+1)^{\frac{3}{2}}}
+\end{eqnarray*}
+This leads to $\sum_{n\geq 0}P_n$ of the form: 
+\begin{eqnarray*}P_0\sum_{n\geq 1}\frac{1}{n^{\frac{3}{2}}}
+\end{eqnarray*}
+This clearly has $\alpha=1.5>1$, hence this will converge and deliver a density function for $P_n$, so a steady state distribution does exist. \newline
+Now, for the form of the expected system size $L_s=E[N_s]$:
+\begin{eqnarray*}E[N_s]&=& \sum_{n\geq 0}n P_n\\
+&=&P_0\sum_{n\geq 0}n\cdot \frac{1}{(n+1)^{\frac{3}{2}}}\\
+&=&P_0\sum_{n\geq 1}\left[\frac{1}{n^\frac{1}{2}}-\frac{1}{n\frac{3}{2}}\right]
+\end{eqnarray*}
+Notice that we have one sum that converges and one that doenst. Hence the overall term does not converge, and there is no finite form for $L_s$. We can expect the system to have infinite size.
+
+
+
+
+\newpage 
+\subsection*{Question 3: Markov Chain}
+
+a) With the given transition matrix, we can illustrate the markov chain, with 'a' denoting $\alpha$:
+```{r,inslude=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.align="center", out.width='60%'}
+library('heemod')
+library('shape')
+library('diagram')
+
+Tr <- define_transition(
+  state_names = c('1', '2', '3', '4', '5'),
+  0, 1, 0, 0, 0,
+  1-alpha, 0, alpha, 0, 0,
+  0, 1, 0, 0, 0, 
+  .5, 0, 0, 0, .5,
+  0, 0, 0, .5, .5);
+
+curves <- matrix(nrow = 5, ncol = 5, 0.065)
+
+plot(Tr, 
+     curve=curves,
+     self.shiftx = 0.125, 
+     self.shifty = 0, 
+     self.arrpos = 1.4,
+     arr.type= "triangle",
+     self.cex=0.7,
+     latex = FALSE,
+     lwd = 1, 
+     box.lwd = 1, 
+     box.col = "lightblue",
+     cex.txt = 0.7, 
+     box.size = 0.09)
+```
+\begin{figure}
+\caption{5 State Markov Chain - See Annex A for R Code}
+\end{figure}
+
+
+
+
+
+
+
+
+
+##
+\newpage
+\subsection*{Annex A: Queue System R COde}
+\begin{verbatim}
+require('heemod')
+require('shape')
+require('diagram')
+Tr2 <- define_transition( state_names = c('4', '3', '2', '1', '0'),
+  0, mu, 0, 0, 0, 
+  lambda^1, 0, mu, 0, 0, 
+  0, lambda^1, 0, mu, 0,  
+  lambda^3, 0, lambda^1, 0, mu,
+  0, lambda^3 , 0, lambda^1, 0)
+
+curves <- matrix(nrow = 5, ncol = 5, 0.55)
+plot(Tr2, pos=c(5),curve=curves, endhead=FALSE,
+     arr.length=0.3, latex=FALSE,
+     lwd = 1, box.lwd = 1, box.col = "lightblue",
+     cex.txt = 1, box.size = 0.07)
+\end{verbatim}
+
+
+
+\subsection*{Annex B: Markov Chain Plot in R}
+\begin{verbatim}
+library('heemod')
+library('shape')
+library('diagram')
+
+Tr <- define_transition(
+  state_names = c('1', '2', '3', '4', '5'),
+  0, 1, 0, 0, 0,
+  1-alpha, 0, alpha, 0, 0,
+  0, 1, 0, 0, 0, 
+  .5, 0, 0, 0, .5,
+  0, 0, 0, .5, .5);
+
+curves <- matrix(nrow = 5, ncol = 5, 0.065)
+
+plot(Tr, 
+     curve=curves,
+     self.shiftx = 0.125, 
+     self.shifty = 0, 
+     self.arrpos = 1.4,
+     arr.type= "triangle",
+     self.cex=0.7,
+     latex = FALSE,
+     lwd = 1, 
+     box.lwd = 1, 
+     box.col = "lightblue",
+     cex.txt = 0.7, 
+     box.size = 0.09)
+\end{verbatim}
+
+
+
+
+
+
