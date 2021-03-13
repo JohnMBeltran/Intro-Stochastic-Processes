@@ -112,9 +112,7 @@ Notice that we have one sum that converges and one that doenst. Hence the overal
 
 \newpage 
 \subsection*{Question 3: Markov Chain}
-
-a) With the given transition matrix, we can illustrate the markov chain, with 'a' denoting $\alpha$:
-```{r,inslude=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.align="center", out.width='60%'}
+```{r,inslude=TRUE, echo=FALSE, message=FALSE, warning=FALSE, fig.align="center", out.width='55%'}
 library('heemod')
 library('shape')
 library('diagram')
@@ -145,22 +143,23 @@ plot(Tr,
 ```
 \begin{figure}\caption{5 State Markov Chain - See Annex A for R Code}
 \end{figure}
+a) The Markov system, with transition matrix $T$ is illustrated in Figure 2. We can show state 1 is transient by studying the probabilities for first return to 1 in $n$ steps, $f_1^{(n)}$:
 $$f_1^1=0, \ \ \ \ \  f_1^2 = 1-\alpha,  \ \ \ \ \ f_1^3 =0, \ \ \ \ \ f_1^4 = \alpha(1-\alpha),$$
 $$ f_1^5 = 0,  \ \ \ \ \ f_1^6 = (1-\alpha)\alpha^2  \ \ \ \ \  f_1^7=0,  \ \ \ \ \  f_1^8=(1-\alpha)\alpha^3,  \ \ \ \ \  ...$$
 Hence, we reach that $\sum_{n\geq 1}f_1^{(n)}=(1-\alpha)(1+\alpha + \alpha ^2+\alpha ^3 +\ldots)$. Now observe that the expansion of $(1-x)^{-1}=1+x+x^2+...$, hence, $\sum_{n\geq 1}f_1^{(n)}=(1-\alpha)(1-\alpha)^{-1}=1$, Hence state 1 is a recurrent state, and will surely return to itself. Now to show positive recurrence -- that state 1 will surely return to itself in finite time -- we require that $\mu_1=\sum_{n\geq 1}n f_1^{(n)}< \infty$, which can be shown, by considering only the non-zero terms, which arise from even values of $n\in\mathbb{N}$, 
-\begin{eqnarray*}\mu_i =\sum_{n\geq 1}n f_1^{(n)}&=&\sum_{n\geq 1}(2n)f_1^{(2n)} \\
-&=&2\sum_{n\geq 1}n (-1\alpha)\alpha^{n-1} \\
+\begin{eqnarray*}\mu_i =\sum_{n\geq 1}n f_1^{(n)}&=&\sum_{n\geq 1}(2n)f_1^{(2n)}=2\sum_{n\geq 1}n (-1\alpha)\alpha^{n-1} \\
 &=& 2(1-\alpha)\sum_{n\geq 1}n\alpha^{n-1}
 \end{eqnarray*}
 Now, since $\alpha \in (0,1)$, in particular $\alpha< 1$, then observe the general form of the sum on the RHS: $\sum_{k=1}^\infty kr^{k-1}=1/(1-r^2)$, for $|r|<1$. This leads to, 
 \begin{eqnarray*}\sum_{n\geq 1}n f_1^{(n)}&=& \frac{2(1-\alpha)}{(1-\alpha)^2}=\frac{2}{1-\alpha}
 \end{eqnarray*}
-Clearly, we have that $\mu_1<\infty$, hence state 1 is positively recurrent as they can all return to themselves. 
+Clearly, we have that $\mu_1<\infty$, hence state 1 is positively recurrent as they can all return to themselves in finite time.\newline
+Similarly, we can show that state 4 is transient by forming $f_4^{(n)}=(2)^{-n}$, for $n\geq 2$, hence $\sum_{n\geq 2}f_4^{(n)}=\left[\sum_{n\geq 0}\frac{1}{2}^{n}\right]-\frac{3}{2}$, where we know that the solution to the infinite sum $\sum_{n\geq 0}\frac{1}{2}^{n}=2$. Now we reach: $\sum_{n\geq 2}f_4^{(n)}=\frac{1}{2}<1$. Hence, state 4 is clearly transient. 
 
 \newpage 
 
 b) From Figure 2, we see that there are two unchains of groups of states that can communicate -- mutually accessible. States 1, 2 \& 3 make a subchain, and 4 \& 5 make the second chain. This second chain contains transient states, because once the system moves from state 4 to state 1, it can no longer return to state 4, or 5. Hence, states 4 and 5 are aperiodic. \newline
-The subchain of states 1,2 &3/ contains positively recurrent states, because we showed that state 1 is positively recurrent and we know that all states in an irreducible subchain share this reccurence property; used without proof. Also, we observe that this subchain of recurrent states is aperiodic, hence it is ergodic.
+The subchain of states 1,2 \& 3 contains positively recurrent states, because we showed that state 1 is positively recurrent and we know that all states in an irreducible subchain share this recurrence property; used without proof. Also, we observe that this subchain of recurrent states is aperiodic, hence it is ergodic.
 
 c) For the steady state probability vector, we can resolve $T^t\tilde{P}^t=\tilde{P}^t$, where $\tilde{P}$ denotes the row matrix of the stationary distribution for the system:
 \begin{eqnarray*}\begin{pmatrix}
@@ -182,11 +181,18 @@ x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5
 x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 
 \end{pmatrix} 
 \end{eqnarray*}
-The final two rows require that $x_5=x_4=0$. The second and third rows requrie that $x_1=(1-\alpha)x_2$, which can be put into the equation in row 1, leading to : $x_2=x_2$. We can now freely choose x_2 -- let $x_2=1$. Hence, the steady state distribution $\tilde{P}=(1-\alpha, \ \ 1,\ \ \alpha,\ \  0,\ \ 0)$
+The final two rows require that $x_5=x_4=0$. The second and third rows requrie that $x_1=(1-\alpha)x_2$, which can be put into the equation in row 1, leading to : $x_2=x_2$. We can now freely choose $x_2$ -- let $x_2=1$. Hence, the steady state distribution $\tilde{P}=(1-\alpha, \ \ 1,\ \ \alpha,\ \  0,\ \ 0)$.
 
-
-
-
+d) Let $a_n=\frac{n}{n+1}$, such that the transition matrix, $T$, is a function of time: $T(n)$.
+In order to classify state 1 in the chain with time-dependent transition matrix $T$, we adjust our definition of recurrence: a state which we return to infinitely often. \newline
+Now, observe that every trajectory into state 1 must pass through through the link from state 2 to state 1, with probability $1-\alpha_n$, where $n$ is the time step. Hence, the probability of any such trajectory, will be multiplied by $\prod_{n\geq 1}[1-\alpha_n]$. \newline
+Now, since we are allowed to assume that $\prod_{n=1}^\infty[1-a_n]=0$ if $a_n\in (0,1)$ and $\sum_{n=1}^\infty a_n$ diverges, then we seek to show that $\sum_{n\geq 1}\alpha_n$ diverges:\newline
+\begin{eqnarray*} 
+\sum_{n\geq 1}\alpha_n &=& \sum_{n\geq 1}\frac{n}{n+1} \\
+&=& \sum_{n\geq 1}\frac{n-1}{n} \\
+&=& \sum_{n\geq 1}\left[1-\frac{1}{n}\right] = \sum_{n\geq 1} [1] - \sum_{n\geq 1}\frac{1}{n}
+\end{eqnarray*}
+This last summation expression clearly diverges, hence $\sum_{n\geq 1}\alpha_n$ diverges, and since $a_n\in (0,1)$, by definition, then $\prod_{n\geq 1}[1-\alpha_n]=0$. This indicates that for very large trajectories (time steps, $\infty$), the probabilities are multiplied by zero. Hence, in the long run, trajectories do no visit state 1 infinitely often, hence state 1 is clearly transient. 
 
 
 
@@ -245,9 +251,6 @@ plot(Tr,
      cex.txt = 0.7, 
      box.size = 0.09)
 \end{verbatim}
-
-
-
 
 
 
