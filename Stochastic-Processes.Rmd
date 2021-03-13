@@ -33,7 +33,7 @@ $$\mu P_1 = (\lambda_1+\lambda_3)P_0, \ \ \ \ \ \ \
 \mu P_3 = \lambda_1 P_2, \ \ \ \ \ \ \ \
 \mu P_4 = \lambda_1 P_3
 $$
-These rate questions lead us to an expression for each state: 
+These rate equations lead us to an expression for each state: 
 $$P_1 = \left[\frac{\lambda_1 + \lambda_3}{\mu}\right]P_0, \ \ \ \ \ \ \ 
 P_2 = \left[\frac{\lambda_1 + \lambda_3}{\mu}\right]P_1, \ \ \ \ \ \ \
 P_3=\frac{\lambda_1}{\mu}, \ \ \ \ \ \ \  
@@ -143,9 +143,31 @@ plot(Tr,
      cex.txt = 0.7, 
      box.size = 0.09)
 ```
-\begin{figure}
-\caption{5 State Markov Chain - See Annex A for R Code}
+\begin{figure}\caption{5 State Markov Chain - See Annex A for R Code}
 \end{figure}
+$$f_1^1=0, \ \ \ \ \  f_1^2 = 1-\alpha,  \ \ \ \ \ f_1^3 =0, \ \ \ \ \ f_1^4 = \alpha(1-\alpha),$$
+$$ f_1^5 = 0,  \ \ \ \ \ f_1^6 = (1-\alpha)\alpha^2  \ \ \ \ \  f_1^7=0,  \ \ \ \ \  f_1^8=(1-\alpha)\alpha^3,  \ \ \ \ \  ...$$
+Hence, we reach that $\sum_{n\geq 1}f_1^{(n)}=(1-\alpha)(1+\alpha + \alpha ^2+\alpha ^3 +\ldots)$. Now observe that the expansion of $(1-x)^{-1}=1+x+x^2+...$, hence, $\sum_{n\geq 1}f_1^{(n)}=(1-\alpha)(1-\alpha)^{-1}=1$, Hence state 1 is a recurrent state, and will surely return to itself. Now to show positive recurrence -- that state 1 will surely return to itself in finite time -- we require that $\mu_1=\sum_{n\geq 1}n f_1^{(n)}< \infty$, which can be shown, by considering only the non-zero terms, which arise from even values of $n\in\mathbb{N}$, 
+\begin{eqnarray*}\mu_i \sum_{n\geq 1}n f_1^{(n)}&=&\sum_{n\geq 1}(2n)f_1^{(2n)} \\
+&=&2\sum_{n\geq 1}n (-1\alpha)\alpha^{n-1} \\
+&=& 2(1-\alpha)\sum_{n\geq 1}n\alpha^{n-1}
+\end{eqnarray*}
+Now, since $\alpha \in (0,1)$, in particular $\alpha< 1$, then observe the general form of the sum on the RHS: $\sum_{k=1}^\infty kr^{k-1}=1/(1-r^2)$, for $|r|<1$. This leads to, 
+\begin{eqnarray*}\sum_{n\geq 1}n f_1^{(n)}&=& \frac{2(1-\alpha)}{(1-\alpha)^2}=\frac{2}{1-\alpha}
+\end{eqnarray*}
+Clearly, we have that $\mu_1<\infty$, hence state 1 is positively recurrent as they can all return to themselves. 
+
+\newpage 
+
+b) From Figure 2, we can deduce that States 4 ad 5 are transient, because once the system move from state four to state 1, it can no longer return to states 4 and 5. \newline
+Also, we see that States 1, 2 and 3 are recurent, and 
+
+
+
+
+
+
+
 
 
 
@@ -157,7 +179,7 @@ plot(Tr,
 
 ##
 \newpage
-\subsection*{Annex A: Queue System R COde}
+\subsection*{Annex A: Queue System R Code}
 \begin{verbatim}
 require('heemod')
 require('shape')
